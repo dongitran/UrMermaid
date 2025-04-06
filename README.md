@@ -1,7 +1,4 @@
-[![Join our Discord!](https://img.shields.io/static/v1?message=join%20chat&color=9cf&logo=discord&label=discord)](https://discord.gg/sKeNQX4Wtj)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/27fa023d-7c73-4a3f-9791-b3b657a47100/deploy-status)](https://app.netlify.com/sites/mermaidjs/deploys)
-
-# Mermaid Live Editor
+# UrMermaid
 
 Edit, preview and share mermaid charts/diagrams.
 
@@ -14,11 +11,10 @@ Edit, preview and share mermaid charts/diagrams.
 
 ## Live demo
 
-You can try out a live version [here](https://mermaid.live/).
+You can try out a live version [here](https://m.urdraw.click/).
 
 # Contributors are welcome!
 
-If you want to speed up the progress for mermaid-live-editor, join the Discord channel and contact knsv.
 
 ## Docker
 
@@ -55,11 +51,6 @@ When building set the MERMAID_IS_ENABLED_MERMAID_CHART_LINKS build argument to `
 
 Default is empty, disabling button to save to Mermaid Chart and promotional banner.
 
-### To update the Security modal
-
-The modal shown on clicking the security link assumes analytics, renderer, Kroki
-and Mermaid chart are enabled. You can update it by modifying `Privacy.svelte`
-if you wish.
 
 ### Development
 
