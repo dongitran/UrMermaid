@@ -22,10 +22,11 @@
   import DropdownNavMenu from './DropdownNavMenu.svelte';
 
   interface Props {
+    mobileToggle?: Snippet;
     children: Snippet;
   }
 
-  let { children }: Props = $props();
+  let { children, mobileToggle }: Props = $props();
 
   const isReferral = document.referrer.includes(MCBaseURL);
 
@@ -69,6 +70,7 @@
       <Button
         title="Dismiss banner"
         variant="ghost"
+        class="hover:bg-transparent hover:text-[#261A56]"
         size="sm"
         onclick={() => {
           dismissPromotion(activePromotion?.id);
@@ -80,7 +82,7 @@
   </div>
 {/if}
 
-<nav class="z-50 flex p-6">
+<nav class="z-50 flex p-4 sm:p-6">
   <div class="flex flex-1 items-center gap-4">
     <MainMenu />
     <div
@@ -88,7 +90,7 @@
       class="flex items-center justify-center gap-4 font-medium"
       class:flex-row-reverse={isReferral}>
       <a href="/" class="whitespace-nowrap text-accent">
-        {#if !isReferral}
+        {#if !isReferral && !mobileToggle}
           Mermaid
         {/if}
         Live Editor
@@ -106,7 +108,7 @@
               // Wait for the event to be logged
               setTimeout(() => {
                 window.open(
-                  $urlsStore.mermaidChart.playground,
+                  $urlsStore.mermaidChart({ medium: 'toggle' }).playground,
                   '_self',
                   // Do not send referrer header, if the user already came from playground
                   isReferral ? 'noreferrer' : ''
@@ -114,7 +116,9 @@
               }, 100);
             }} />
 
-          <a href={$urlsStore.mermaidChart.playground} class="whitespace-nowrap">
+          <a
+            href={$urlsStore.mermaidChart({ medium: 'toggle' }).playground}
+            class="whitespace-nowrap">
             Playground <span class="hidden text-sm opacity-50 lg:inline"
               >- more features, no account required</span>
           </a>
@@ -129,4 +133,5 @@
     <Separator orientation="vertical" />
     {@render children()}
   </div>
+  {@render mobileToggle?.()}
 </nav>

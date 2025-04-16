@@ -1,4 +1,5 @@
-import type { ErrorHash, MarkerData, State, ValidatedState } from '$lib/types';
+import { C } from '$/constants';
+import type { ErrorHash, MarkerData, State, ValidatedState } from '$/types';
 import { debounce } from 'lodash-es';
 import type { MermaidConfig } from 'mermaid';
 import { derived, get, writable, type Readable } from 'svelte/store';
@@ -137,11 +138,23 @@ export const urlsStore = derived([stateStore], ([{ code, serialized }]) => {
   return {
     kroki: `${krokiRendererUrl}/mermaid/svg/${pakoSerde.serialize(code)}`,
     mdCode: `[![](${png})](${window.location.protocol}//${window.location.host}${window.location.pathname}#${serialized})`,
-    mermaidChart: {
-      save: `${MCBaseURL}/app/plugin/save?state=${serialized}`,
-      playground: `${MCBaseURL}/play#${serialized}`
+    mermaidChart: ({
+      medium
+    }: {
+      medium: 'ai_repair' | 'main_menu' | 'save_diagram' | 'share' | 'toggle';
+    }) => {
+      const params = new URLSearchParams({
+        utm_source: C.utmSource,
+        utm_medium: medium
+      }).toString();
+      return {
+        save: `${MCBaseURL}/app/plugin/save?state=${serialized}&${params}`,
+        playground: `${MCBaseURL}/play?${params}#${serialized}`,
+        plugins: `${MCBaseURL}/plugins?${params}`,
+        home: `${MCBaseURL}/?${params}`
+      };
     },
-    new: `${window.location.protocol}//${window.location.host}${window.location.pathname}/#${serializeState(defaultState)}`,
+    new: `${window.location.protocol}//${window.location.host}${window.location.pathname}#${serializeState(defaultState)}`,
     png,
     svg: `${rendererUrl}/svg/${serialized}`,
     view: `/view${queryParams}#${serialized}`,
